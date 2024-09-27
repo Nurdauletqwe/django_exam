@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Forum{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'app:index' %}">Home</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'app:create_post' %}">Create Post</a></li>
+                    <li><a href="{% url 'app:my_posts' %}">My Posts</a></li>
+                    <li><a href="{% url 'app:profile' %}">Profile</a></li>
+                    <li><a href="{% url 'app:notifications' %}">Notifications</a></li>
+                    <li><form method="post" action="{% url 'app:logout' %}">
+                            {% csrf_token %}
+                            <button type="submit">logout</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'app:login' %}">Login</a></li>
+                    <li><a href="{% url 'app:register' %}">Register</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>Django Exam</p>
+    </footer>
+</body>
+</html>

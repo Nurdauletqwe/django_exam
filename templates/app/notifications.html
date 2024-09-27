@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Notifications{% endblock %}
+
+{% block content %}
+<h1>Notifications</h1>
+<ul>
+    {% for notification in notifications %}
+    <li>
+        New comment on your post: {{ notification.comment.post.title }}
+        <a href="{% url 'app:notification_read' notification.id %}">Read</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
